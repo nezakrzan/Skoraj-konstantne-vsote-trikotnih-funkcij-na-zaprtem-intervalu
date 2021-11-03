@@ -1,0 +1,75 @@
+ \documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[slovene]{babel}
+
+\usepackage{amsthm}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{relsize}
+\usepackage{graphicx}
+\graphicspath{ {./Slike/} }
+\usepackage{subcaption} % za side-by-side slike
+\usepackage[
+top    = 3.cm,
+bottom = 3.cm,
+left   = 3.cm,
+right  = 3.cm]{geometry}
+\usepackage{bbm} % za indikatorsko funkcijo
+
+\newtheorem{definicija}{Definicija}[section]
+
+\theoremstyle{definition}
+\newtheorem{zgled}{Zgled}[section]
+
+\newtheorem{opomba}{Opomba}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\p}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\1}{\mathbbm{1}}
+
+\begin{document}
+
+\begin{titlepage} 
+
+	\center 
+	
+	\textsc{\LARGE Univerza v Ljubljani}\\[0.5cm] 
+	{\Large Fakulteta za matematiko in fiziko}\\[3cm] 
+	
+	{\large Finančni praktikum}\\[1.0cm]
+	
+	{\huge \textsc{Skoraj konstantne vsote trikotnih funkcij na zaprtem intervalu}}\\[1.0cm]
+	
+	{\large Opis problema in načrt dela}\\[3.0cm]
+	
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushleft}
+			\large
+			\textit{Avtorja:}\\
+			Neža \textsc{Kržan} \\
+			Oskar \textsc{Vavtar} 
+		\end{flushleft}
+	\end{minipage}
+	~
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushright}
+			\large
+			\textit{Mentorja:}\\
+			prof. dr. Sergio \textsc{Cabello} \\
+			asist. dr. Janoš \textsc{Vidali}
+		\end{flushright}
+	\end{minipage}
+	
+	\vfill\vfill\vfill 
+	
+	{\large{Ljubljana, \today}} 
+	 
+	\vfill 
+	
+\end{titlepage}
+
+\tableofcontents
+\pagebreak
+
+\end{document}
