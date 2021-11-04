@@ -27,6 +27,7 @@ right  = 3.cm]{geometry}
 \newcommand{\p}{\mathbb{P}}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\1}{\mathbbm{1}}
+\newcommand{\set}[1]{\{#1\}}
 
 \begin{document}
 
@@ -39,7 +40,7 @@ right  = 3.cm]{geometry}
 	
 	{\large Finančni praktikum}\\[1.0cm]
 	
-	{\huge \textsc{Skoraj konstantne vsote trikotnih funkcij na zaprtem intervalu \\(nedokončana različica)}}\\[1.0cm]
+	{\huge \texttt{(nedokončana različica)} \\\textsc{Skoraj konstantne vsote trikotnih funkcij na zaprtem intervalu}}\\[1.0cm]
 	
 	{\large Opis problema in načrt dela}\\[3.0cm]
 	
@@ -91,8 +92,8 @@ Problema bi se lotila tako, da bi se lotila tudi ostalih enostavnih funkcij (\ld
 
 \noindent V primeru, da metoda celoštevilskega linearnega programiranja ni primerna za reševanje tega optimizacijskega problema, bova iskala druge primerne metode. Dotaknila se bova tudi smiselnega generiranja zgoraj naštetih vrst trikotnih funkcij.
 
-\noindent Kot opisano v navodilu je ``čim bolj konstantno'' mišljeno kot čim manjša razlika med maksimalno in minimalno vrednostjo vsote funkcij na intervalu. Če iz nabora funkcij izberemo funkcije $f_1,\ldots,f_k$, želimo v njih torej doseči
-$$\min{\max_{x \in [a,b]}{f_1(x) + \ldots + f_l(x)} - \min_{x \in [a,b]}{f_1(x) + \ldots + f_k(x)}}$$
+\noindent Kot opisano v navodilu je ``čim bolj konstantno'' mišljeno kot čim manjša razlika med maksimalno in minimalno vrednostjo vsote funkcij na intervalu. Iz nabora funkcij $\set{f_1,\ldots,f_n}$ želimo torej izbrat tako podmnožico $\set{f_{(1)},\ldots,f_{(k)}}$, $k \leq n$, da bo dosežen
+$$\min_{\set{f_{(1)},\ldots,f_{(k)}} \subseteq \set{f_1,\ldots,f_n}}\left({\max_{x \in [a,b]}\left(f_{(1)}(x) + \ldots + f_{(k)}(x)\right) - \min_{x \in [a,b]}\left(f_{(1)}(x) + \ldots + f_{(k)}(x)\right)}\right)$$
 na želenem zaprtem intervalu $[a,b]$ (v navodilih $[0,1]$). Pomisleke imava glede primernosti linearnega programiranja, saj funkciji $\max$ in $\min$ nista linearni. Premislila bova tudi o potencialni boljši matematični formulaciji problema.
 
 \section{Programsko okolje in implementacija}
