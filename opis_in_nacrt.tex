@@ -17,7 +17,8 @@ right  = 3.cm]{geometry}
 \newtheorem{definicija}{Definicija}[section]
 
 \theoremstyle{definition}
-\newtheorem{zgled}{Zgled}[section]
+\newtheorem*{navodilo}{Navodilo}
+\newtheorem*{razmislek}{Razmislek}
 
 \newtheorem{opomba}{Opomba}
 
@@ -26,6 +27,7 @@ right  = 3.cm]{geometry}
 \newcommand{\p}{\mathbb{P}}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\1}{\mathbbm{1}}
+\newcommand{\set}[1]{\{#1\}}
 
 \begin{document}
 
@@ -38,7 +40,7 @@ right  = 3.cm]{geometry}
 	
 	{\large Finančni praktikum}\\[1.0cm]
 	
-	{\huge \textsc{Skoraj konstantne vsote trikotnih funkcij na zaprtem intervalu}}\\[1.0cm]
+	{\huge \textsc{Skoraj konstantne vsote trikotnih funkcij na zaprtem intervalu \\\texttt{(nedokončana različica)}}}\\[1.0cm]
 	
 	{\large Opis problema in načrt dela}\\[3.0cm]
 	
@@ -68,6 +70,36 @@ right  = 3.cm]{geometry}
 	
 \end{titlepage}
 
+\section{Navodilo}
+\vspace{0.5cm}
+
+Imamo nabor $n$ trikotnih funkcij. Izmed njih želimo izbrati podmnožico največ sedmih, da bo njihova vsota čim bolj konstantna na intervalu $[0,1]$ - s tem mislimo, da je razlika med maksimalno in minimalno vrednostjo vsote najmanjša možna. Ali je metoda celoštevilskega linearnega programiranja primerna za ta problem? Lahko uporabimo kakšne druge metode? Kako bi sami generirali smiselne vhodne podatke za ta problem? Bi lahko na enak način obravnavali tudi druge funkcije, npr. preproste stopničaste funkcije?
+\vspace{0.5cm}
+
+\section{Razmislek in potek dela}
+\vspace{0.5cm}
+
+Problema bi se lotila tako, da bi se lotila tudi ostalih enostavnih funkcij (\ldots). Očitno je, da je več aspektov tega problema mogoče posplošiti. Namesto 7 funkcij, jih lahko izberemo $m$, $m \leq n$. Kot že omenjeno, lahko trikotne funkcije zamenjamo z s poljubnimi preprostimi funkcijami. Namesto intervala $[0,1]$ pa lahko izbereva poljuben zaprt interval $[a,b]$, $-\infty < a \leq b < \infty$. \\
+
+\noindent Po pregledu ostalih enostavnih funkcij, bi se lotila eksperimentiranja z različnimi trikotnimi funkcijami, npr.:
+\begin{itemize}
+	\item nabor trikotnih funkcij z isto višino ali širino
+	\item simetrične trikotne funkcije
+	\item asimetrične trikotne funkcije
+	\item nabor trikotnih funkcij z isto (fiksirano) ploščino
+\end{itemize}
+\vspace{0.5cm}
+
+\noindent V primeru, da metoda celoštevilskega linearnega programiranja ni primerna za reševanje tega optimizacijskega problema, bova iskala druge primerne metode. Dotaknila se bova tudi smiselnega generiranja zgoraj naštetih vrst trikotnih funkcij.
+
+\noindent Kot opisano v navodilu je ``čim bolj konstantno'' mišljeno kot čim manjša razlika med maksimalno in minimalno vrednostjo vsote funkcij na intervalu. Če iz nabora funkcij izberemo funkcije $f_1,\ldots,f_k$, želimo v njih torej doseči
+$$\min{\max_{x \in [a,b]}\set{f_1(x) + \ldots + f_l(x)} - \min_{x \in [a,b]}\set{f_1(x) + \ldots + f_k(x)}}$$
+na želenem zaprtem intervalu $[a,b]$ (v navodilih $[0,1]$). Pomisleke imava glede primernosti linearnega programiranja, saj funkciji $\max$ in $\min$ nista linearni. Premislila bova tudi o potencialni boljši matematični formulaciji problema.
+
+\section{Programsko okolje in implementacija}
+\vspace{0.5cm}
+
+Za implementacijo problema sva se odločila za uporabo programskega jezika \texttt{Sage}, ker ima že vgrajeno podporo za \textit{celoštevilsko linearno programiranje}. V osnovi sloni na programskem jeziku \texttt{Python}, z dodatno podporo za matematiko, nastal pa je kot alternativa programskemu jeziku \texttt{Mathematica}. V primeru, da bi nama \texttt{Sage} delal težave, se bi obrnila še na programska jezika \texttt{R} in \texttt{Python}. V \texttt{R} bi uporabila knjižnici za linearno programiranje \texttt{lpSolve} in \texttt{lpSolveAPI}. V \texttt{Pythonu}-u bi se lahko obrnila na paketa \texttt{SciPy} in \texttt{PuLP}.
 
 
 \end{document}
