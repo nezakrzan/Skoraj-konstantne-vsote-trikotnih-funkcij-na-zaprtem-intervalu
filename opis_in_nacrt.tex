@@ -40,7 +40,7 @@ right  = 3.cm]{geometry}
 	
 	{\large Finančni praktikum}\\[1.0cm]
 	
-	{\huge \texttt{(nedokončana različica)} \\\textsc{Skoraj konstantne vsote trikotnih funkcij na zaprtem intervalu}}\\[1.0cm]
+	{\huge \textsc{Skoraj konstantne vsote trikotnih funkcij na zaprtem intervalu}}\\[1.0cm]
 	
 	{\large Opis problema in načrt dela}\\[3.0cm]
 	
@@ -73,15 +73,15 @@ right  = 3.cm]{geometry}
 \section{Navodilo}
 \vspace{0.5cm}
 
-Imamo nabor $n$ trikotnih funkcij. Izmed njih želimo izbrati podmnožico največ sedmih, da bo njihova vsota čim bolj konstantna na intervalu $[0,1]$ - s tem mislimo, da je razlika med maksimalno in minimalno vrednostjo vsote najmanjša možna. Ali je metoda celoštevilskega linearnega programiranja primerna za ta problem? Lahko uporabimo kakšne druge metode? Kako bi sami generirali smiselne vhodne podatke za ta problem? Bi lahko na enak način obravnavali tudi druge funkcije, npr. preproste stopničaste funkcije?
+\textit{Imamo nabor $n$ trikotnih funkcij. Izmed njih želimo izbrati podmnožico največ sedmih, da bo njihova vsota čim bolj konstantna na intervalu $[0,1]$ - s tem mislimo, da je razlika med maksimalno in minimalno vrednostjo vsote najmanjša možna. Ali je metoda celoštevilskega linearnega programiranja primerna za ta problem? Lahko uporabimo kakšne druge metode? Kako bi sami generirali smiselne vhodne podatke za ta problem? Bi lahko na enak način obravnavali tudi druge funkcije, npr. preproste stopničaste funkcije?}
 \vspace{0.5cm}
 
 \section{Razmislek in potek dela}
 \vspace{0.5cm}
 
-Problema bi se lotila tako, da bi se lotila tudi ostalih enostavnih funkcij (\ldots). Očitno je, da je več aspektov tega problema mogoče posplošiti. Namesto 7 funkcij, jih lahko izberemo $m$, $m \leq n$. Kot že omenjeno, lahko trikotne funkcije zamenjamo z s poljubnimi preprostimi funkcijami. Namesto intervala $[0,1]$ pa lahko izbereva poljuben zaprt interval $[a,b]$, $-\infty < a \leq b < \infty$. \\
+Očitno je, da je več aspektov tega problema mogoče posplošiti. Trikotne funkcije lahko nadomestimo s katerimi drugimi preprostimi funkcijami (npr. stopničasto), kar v začetni fazi eksperimentiranja nameravava tudi storiti. Namesto 7 funkcij, jih lahko izberemo $m$, $m \leq n$. Namesto intervala $[0,1]$ pa lahko izbereva poljuben zaprt interval $[a,b]$, $-\infty < a \leq b < \infty$. \\
 
-\noindent Po pregledu ostalih enostavnih funkcij, bi se lotila eksperimentiranja z različnimi trikotnimi funkcijami, npr.:
+\noindent Po pregledu ostalih enostavnih funkcij, se bova lotila eksperimentiranja z različnimi trikotnimi funkcijami, npr.:
 \begin{itemize}
 	\item nabor trikotnih funkcij z isto višino ali širino
 	\item simetrične trikotne funkcije
@@ -90,16 +90,16 @@ Problema bi se lotila tako, da bi se lotila tudi ostalih enostavnih funkcij (\ld
 \end{itemize}
 \vspace{0.5cm}
 
-\noindent V primeru, da metoda celoštevilskega linearnega programiranja ni primerna za reševanje tega optimizacijskega problema, bova iskala druge primerne metode. Dotaknila se bova tudi smiselnega generiranja zgoraj naštetih vrst trikotnih funkcij.
+\noindent V primeru, da metoda celoštevilskega linearnega programiranja ni primerna za reševanje tega optimizacijskega problema, bova iskala druge primerne metode. Tekom eksperimentiranja s trikotnimi funkcijami, se bova dotaknila tudi načinov, kako te za namene našega problema sploh smiselno generirati. \\
 
-\noindent Kot opisano v navodilu je ``čim bolj konstantno'' mišljeno kot čim manjša razlika med maksimalno in minimalno vrednostjo vsote funkcij na intervalu. Iz nabora funkcij $\set{f_1,\ldots,f_n}$ želimo torej izbrat tako podmnožico $\set{f_{(1)},\ldots,f_{(k)}}$, $k \leq n$, da bo dosežen
-$$\min_{\set{f_{(1)},\ldots,f_{(k)}} \subseteq \set{f_1,\ldots,f_n}}\left({\max_{x \in [a,b]}\left(f_{(1)}(x) + \ldots + f_{(k)}(x)\right) - \min_{x \in [a,b]}\left(f_{(1)}(x) + \ldots + f_{(k)}(x)\right)}\right)$$
-na želenem zaprtem intervalu $[a,b]$ (v navodilih $[0,1]$). Pomisleke imava glede primernosti linearnega programiranja, saj funkciji $\max$ in $\min$ nista linearni. Premislila bova tudi o potencialni boljši matematični formulaciji problema.
+\noindent Kot opisano v navodilu je ``čim bolj konstantno'' mišljeno kot čim manjša razlika med maksimalno in minimalno vrednostjo vsote funkcij na intervalu. Iz nabora funkcij $\set{f_1,\ldots,f_n}$ želimo torej izbrat tako podmnožico $\set{f_{(1)},\ldots,f_{(m)}}$, $m \leq n$, da bo dosežen
+$$\min_{\set{f_{(1)},\ldots,f_{(m)}} \subseteq \set{f_1,\ldots,f_n}}\left({\max_{x \in [a,b]}\sum_{i=1}^m f_{(i)} - \min_{x \in [a,b]}\sum_{i=1}^m f_{(i)}}\right)$$
+na želenem zaprtem intervalu $[a,b]$ (v navodilih $[0,1]$). Pomisleke imava glede primernosti linearnega programiranja, saj funkciji $\max$ in $\min$ nista linearni. Premislila bova tudi o potencialni boljši matematični formulaciji problema. Pomagala si bova tudi z dejstvom, da so funkcije s katerimi imava opravka zvezne ter odsekoma linearne -- prav tako njihove vsote -- ter da se ekstremi takih funkcij lahko pojavljajo le na mestih, kjer se te lomijo, v kontekstu našega problema pa tudi na robovih ustreznega intervala.
 
 \section{Programsko okolje in implementacija}
 \vspace{0.5cm}
 
-Za implementacijo problema sva se odločila za uporabo programskega jezika \texttt{Sage}, ker ima že vgrajeno podporo za \textit{celoštevilsko linearno programiranje}. V osnovi sloni na programskem jeziku \texttt{Python}, z dodatno podporo za matematiko, nastal pa je kot alternativa programskemu jeziku \texttt{Mathematica}. V primeru, da bi nama \texttt{Sage} delal težave, se bi obrnila še na programska jezika \texttt{R} in \texttt{Python}. V \texttt{R} bi uporabila knjižnici za linearno programiranje \texttt{lpSolve} in \texttt{lpSolveAPI}. V \texttt{Pythonu}-u bi se lahko obrnila na paketa \texttt{SciPy} in \texttt{PuLP}.
+Za implementacijo problema sva se odločila za uporabo programskega jezika \texttt{Sage}, ker ima že vgrajeno podporo za celoštevilsko linearno programiranje. V osnovi sloni na programskem jeziku \texttt{Python}, z dodatno podporo za matematiko, nastal pa je kot alternativa programskemu jeziku \texttt{Mathematica}. V primeru, da bi nama \texttt{Sage} delal težave, se bi obrnila še na programska jezika \texttt{R} in \texttt{Python}. V \texttt{R} bi uporabila knjižnici za linearno programiranje \texttt{lpSolve} in \texttt{lpSolveAPI}. V \texttt{Pythonu}-u bi se lahko obrnila na paketa \texttt{SciPy} in \texttt{PuLP}.
 
 
 \end{document}

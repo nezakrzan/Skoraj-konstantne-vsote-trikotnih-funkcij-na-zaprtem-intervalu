@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.3.30)  4 NOV 2021 16:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.3.30)  12 NOV 2021 20:16
 entering extended mode
 **./opis_in_nacrt.tex
 (opis_in_nacrt.tex
@@ -375,15 +375,19 @@ File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 86.
 
+Underfull \hbox (badness 10000) in paragraph at lines 93--94
+
+ []
+
 [1] [2] (opis_in_nacrt.aux) ) 
 Here is how much of TeX's memory you used:
- 5174 strings out of 492462
- 78866 string characters out of 3120940
+ 5171 strings out of 492462
+ 78826 string characters out of 3120940
  157747 words of memory out of 3000000
- 9441 multiletter control sequences out of 15000+600000
- 11724 words of font info for 44 fonts, out of 8000000 for 9000
+ 9439 multiletter control sequences out of 15000+600000
+ 11555 words of font info for 43 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 46i,4n,47p,677b,248s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 46i,4n,47p,668b,248s stack positions out of 5000i,500n,10000p,200000b,80000s
 <C:/Users/burek/AppData/Local/Programs/MiKTeX 2.9/
 fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/burek/AppData/Local/Program
 s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/burek/AppData
@@ -401,11 +405,10 @@ ers/burek/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy
 fonts/cm/cmsy8.pfb><C:/Users/burek/AppData/Local/Programs/MiKTeX 2.9/fonts/type
 1/public/amsfonts/cm/cmti10.pfb><C:/Users/burek/AppData/Local/Programs/MiKTeX 2
 .9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/burek/AppData/Local/Prog
-rams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/burek/AppDa
-ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on opis_in_nacrt.pdf (3 pages, 173849 bytes).
+rams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on opis_in_nacrt.pdf (3 pages, 171372 bytes).
 PDF statistics:
- 76 PDF objects out of 1000 (max. 8388607)
+ 72 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
