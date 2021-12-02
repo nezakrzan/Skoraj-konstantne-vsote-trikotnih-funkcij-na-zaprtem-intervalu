@@ -103,8 +103,8 @@ Očitno je, da je več aspektov tega problema mogoče posplošiti. Trikotne funk
 
 \noindent V primeru, da metoda celoštevilskega linearnega programiranja ni primerna za reševanje tega optimizacijskega problema, bova iskala druge primerne metode. Tekom eksperimentiranja s trikotnimi funkcijami, se bova dotaknila tudi načinov, kako te za namene našega problema sploh smiselno generirati. \\
 
-\noindent Kot opisano v navodilu je ``čim bolj konstantno'' mišljeno kot čim manjša razlika med maksimalno in minimalno vrednostjo vsote funkcij na intervalu. Iz nabora funkcij $\set{f_1,\ldots,f_n}$ želimo torej izbrat tako podmnožico $\set{g_1,\ldots,g_m}$, $m \leq n$, da bo dosežen
-$$\min_{\set{g_1,\ldots,g_m} \subseteq \set{f_1,\ldots,f_n}}\left({\max_{x \in [a,b]}\sum_{i=1}^m g_i - \min_{x \in [a,b]}\sum_{i=1}^m g_i}\right)$$
+\noindent Kot opisano v navodilu je ``čim bolj konstantno'' mišljeno kot čim manjša razlika med maksimalno in minimalno vrednostjo vsote funkcij na intervalu. Iz nabora funkcij $\set{f_1,\ldots,f_n}$ želimo torej izbrat tako podmnožico $\set{g_1,\ldots,g_r}$, $r \leq n$, da bo dosežen
+$$\min_{\set{g_1,\ldots,g_r} \subseteq \set{f_1,\ldots,f_n}}\left({\max_{x \in [a,b]}\sum_{i=1}^r g_i - \min_{x \in [a,b]}\sum_{i=1}^r g_i}\right)$$
 na želenem zaprtem intervalu $[a,b]$ (v navodilih $[0,1]$). Pomisleke imava glede primernosti linearnega programiranja, saj funkciji $\max$ in $\min$ nista linearni. Premislila bova tudi o potencialni boljši matematični formulaciji problema. Pomagala si bova tudi z dejstvom, da so funkcije s katerimi imava opravka zvezne ter odsekoma linearne -- prav tako njihove vsote -- ter da se ekstremi takih funkcij lahko pojavljajo le na mestih, kjer se te lomijo, v kontekstu našega problema pa tudi na robovih ustreznega intervala.
 
 \subsection{Programsko okolje in implementacija}
@@ -117,21 +117,22 @@ Za implementacijo problema sva se odločila za uporabo programskega jezika \text
 \section{Rešitev problema s CLP}
 \vspace{0.5cm}
 
-Kot omenjeno v uvodu, je ideja naslednja: iz nabora funkcij $\set{f_1,\ldots,f_n}$ želimo torej izbrati tako podmnožico $\set{g_1,\ldots,g_m}$, $m \leq n$, da bo dosežen
-$$\min_{\set{g_1,\ldots,g_m} \subseteq \set{f_1,\ldots,f_n}}\left({\max_{x \in [a,b]}\sum_{i=1}^m g_i - \min_{x \in [a,b]}\sum_{i=1}^m g_i}\right)$$
+Kot omenjeno v uvodu, je ideja naslednja: iz nabora funkcij $\set{f_1,\ldots,f_n}$ želimo torej izbrati tako podmnožico $\set{g_1,\ldots,g_r}$, $r \leq n$, da bo dosežen
+$$\min_{\set{g_1,\ldots,g_r} \subseteq \set{f_1,\ldots,f_n}}\left({\max_{x \in [a,b]}\sum_{i=1}^r g_i - \min_{x \in [a,b]}\sum_{i=1}^r g_i}\right)$$
 na želenem zaprtem intervalu $[a,b]$. Glede na to, da imamo opravka s trikotnimi funkcijami, ki so odsekoma linearne, pa lahko problem poenostavimo. Iz odsekoma linearnosti tako funkcij kot njihove vsote sledi, da bo vsota lahko dosegla ekstrem le na robovih intervala ali na mestu prelomu ene izmed funkcij. Vsoto lahko zato namesto na celotnem intervalu $[a,b]$ ocenimo le na točkah preloma. Definiramo torej množico testnih točk $\mathcal{B} = \set{x_1,\ldots,x_k} \cap [a,b]$, v kateri so vsebovane točke preloma obravnavanih funkcij (iz intervala $[a,b]$) ter robni točki $\set{a}$ in $\set{b}$. Da lahko v teh točkah ocenimo vsoto, moramo izračunati vrednosti vseh funkcij $f_j$, $j \in [n]$, v vseh točkah množice $\B$. Zgornjo formulacijo problema lahko prepišemo kot
-$$\min_{\green{\set{g_1,\ldots,g_m} \subset \set{f_1,\ldots,f_n}}} \left( \max_{x_i \in \B} \sum_{j=1}^n f_j(x_i)v_j - \min_{x_i \in \mathcal{B}} \sum_{j=1}^n f_j(x_i)v_j \right),$$
+$$\min \left( \max_{x_i \in \B} \sum_{j=1}^n f_j(x_i)v_j - \min_{x_i \in \mathcal{B}} \sum_{j=1}^n f_j(x_i)v_j \right),$$
 kjer $v_j$ definiramo kot
 $$v_j ~=~ \begin{cases}
-1\,; ~&f_j \in \set{g_1,\ldots,g_m}, \\
-0\,; ~&f_j \notin \set{g_1,\ldots,g_m}.
+1\,; ~&f_j \in \set{g_1,\ldots,g_r}, \\
+0\,; ~&f_j \notin \set{g_1,\ldots,g_r}.
 \end{cases}$$
-Definiramo lahko še $a_{ij} := f_j(x_i)$, $i \in [k], j \in [n]$, in zapišemo sledeč linearni program:
+Zapišemo lahko sledeč linearni program:
 \begin{align*}
-\min &\left( \max_{x_i \in \B} \sum_{j=1}^n a_{ij}v_j - \min_{x_i \in \B} \sum_{j=1}^n a_{ij}v_j \right) \\
-\forall j \in [m]: ~&0 \leq v_j \leq 1, \quad v_j \in \Z \\
-&\sum_{j=1}^n v_j \leq m \leq n, \quad m,n \in \N \\
-&i \leq 3n+2, \quad i \in \Z
+&\min(M-m) \\
+&\forall j \in \set{1,\ldots,r}: ~0 \leq v_j \leq 1, ~v_j \in \Z \\
+&\forall i \in \set{1,\ldots,k}: ~\sum_{j=1}^r f_j(x_i)v_j \leq M \\
+&\forall i \in \set{1,\ldots,k}: ~\sum_{j=1}^r f_j(x_i)v_j \geq m \\
+&\sum_{j=1}^r v_j \geq 1
 \end{align*}
 
 % #################################################################################################
