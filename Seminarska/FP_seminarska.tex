@@ -1,4 +1,4 @@
- \documentclass[11pt]{article}
+\documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[slovene]{babel}
 
@@ -33,61 +33,19 @@ right  = 3.cm]{geometry}
 \newcommand{\green}[1]{\color{teal}#1\color{black}}
 \newcommand{\B}{\mathcal{B}}
 
+\title{Poročilo projekta - Skoraj konstantne vsote trikotnih funkcij na zaprtem intervalu}
+\author{Oskar Vavtar in Neža Kržan}
+\date{6. 12. 2021}
+
 \begin{document}
+\maketitle
 
-\begin{titlepage} 
-
-	\center 
-	
-	\textsc{\LARGE Univerza v Ljubljani}\\[0.5cm] 
-	{\Large Fakulteta za matematiko in fiziko}\\[3cm] 
-	
-	{\large Finančni praktikum}\\[1.0cm]
-	
-	{\huge \textsc{Skoraj konstantne vsote trikotnih funkcij na zaprtem intervalu}}\\[1.0cm]
-	
-	{\large Seminarska naloga}\\[3.0cm]
-	
-	\begin{minipage}{0.4\textwidth}
-		\begin{flushleft}
-			\large
-			\textit{Avtorja:}\\
-			Neža \textsc{Kržan} \\
-			Oskar \textsc{Vavtar} 
-		\end{flushleft}
-	\end{minipage}
-	~
-	\begin{minipage}{0.4\textwidth}
-		\begin{flushright}
-			\large
-			\textit{Mentorja:}\\
-			prof. dr. Sergio \textsc{Cabello} \\
-			doc. dr. Janoš \textsc{Vidali}
-		\end{flushright}
-	\end{minipage}
-	
-	\vfill\vfill\vfill 
-	
-	{\large{Ljubljana, \today}} 
-	 
-	\vfill 
-	
-\end{titlepage}
-
-% #################################################################################################
-
-\section{Uvod}
+\section{Navodilo}
 \vspace{0.5cm}
 
-% *************************************************************************************************
+Imamo nabor $n$ trikotnih funkcij. Izmed njih želimo izbrati podmnožico največ sedmih, da bo njihova vsota čim bolj konstantna na intervalu $[0,1]$ - s tem mislimo, da je razlika med maksimalno in minimalno vrednostjo vsote najmanjša možna. Ali je metoda celoštevilskega linearnega programiranja primerna za ta problem? Lahko uporabimo kakšne druge metode? Kako bi sami generirali smiselne vhodne podatke za ta problem? Bi lahko na enak način obravnavali tudi druge funkcije, npr. preproste stopničaste funkcije?
 
-\subsection{Navodilo}
-\vspace{0.5cm}
-
-\textit{Imamo nabor $n$ trikotnih funkcij. Izmed njih želimo izbrati podmnožico največ sedmih, da bo njihova vsota čim bolj konstantna na intervalu $[0,1]$ - s tem mislimo, da je razlika med maksimalno in minimalno vrednostjo vsote najmanjša možna. Ali je metoda celoštevilskega linearnega programiranja primerna za ta problem? Lahko uporabimo kakšne druge metode? Kako bi sami generirali smiselne vhodne podatke za ta problem? Bi lahko na enak način obravnavali tudi druge funkcije, npr. preproste stopničaste funkcije?}
-\vspace{0.5cm}
-
-\subsection{Razmislek in potek dela}
+\section{Razmislek in potek dela}
 \vspace{0.5cm}
 
 Očitno je, da je več aspektov tega problema mogoče posplošiti. Trikotne funkcije lahko nadomestimo s katerimi drugimi preprostimi funkcijami (npr. stopničasto), kar v začetni fazi eksperimentiranja nameravava tudi storiti. Namesto 7 funkcij, jih lahko izberemo $m$, $m \leq n$. Namesto intervala $[0,1]$ pa lahko izbereva poljuben zaprt interval $[a,b]$, $-\infty < a \leq b < \infty$. \\
@@ -112,7 +70,7 @@ na želenem zaprtem intervalu $[a,b]$ (v navodilih $[0,1]$). Pomisleke imava gle
 
 Za implementacijo problema sva se odločila za uporabo programskega jezika \texttt{Sage}, ker ima že vgrajeno podporo za celoštevilsko linearno programiranje. V osnovi sloni na programskem jeziku \texttt{Python}, z dodatno podporo za matematiko, nastal pa je kot alternativa programskemu jeziku \texttt{Mathematica}. V primeru, da bi nama \texttt{Sage} delal težave, se bi obrnila še na programska jezika \texttt{R} in \texttt{Python}. V \texttt{R} bi uporabila knjižnici za linearno programiranje \texttt{lpSolve} in \texttt{lpSolveAPI}. V \texttt{Pythonu}-u bi se lahko obrnila na paketa \texttt{SciPy} in \texttt{PuLP}.
 
-% #################################################################################################
+%#################################################################################################
 
 \section{Rešitev problema s CLP}
 \vspace{0.5cm}
@@ -132,9 +90,10 @@ Zapišemo lahko sledeč linearni program:
 &\forall j \in \set{1,\ldots,r}: ~0 \leq v_j \leq 1, ~v_j \in \Z \\
 &\forall i \in \set{1,\ldots,k}: ~\sum_{j=1}^r f_j(x_i)v_j \leq M \\
 &\forall i \in \set{1,\ldots,k}: ~\sum_{j=1}^r f_j(x_i)v_j \geq m \\
-&\sum_{j=1}^r v_j \geq 1
+&\sum_{j=1}^r v_j \geq 1 \\
+&\sum_{j=1}^r v_j \leq 7
 \end{align*}
 
-% #################################################################################################
+%#################################################################################################
 
 \end{document}
