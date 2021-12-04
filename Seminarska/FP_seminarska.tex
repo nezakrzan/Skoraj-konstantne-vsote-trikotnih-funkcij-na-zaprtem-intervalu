@@ -40,50 +40,59 @@ right  = 3.cm]{geometry}
 \begin{document}
 \maketitle
 
-\section{Navodilo}
+% #################################################################################################
+
+\section{Uvod}
+\vspace{0.5cm}
+
+% *************************************************************************************************
+
+\subsection{Navodilo}
 \vspace{0.5cm}
 
 Imamo nabor $n$ trikotnih funkcij. Izmed njih želimo izbrati podmnožico največ sedmih, da bo njihova vsota čim bolj konstantna na intervalu $[0,1]$ - s tem mislimo, da je razlika med maksimalno in minimalno vrednostjo vsote najmanjša možna. Ali je metoda celoštevilskega linearnega programiranja primerna za ta problem? Lahko uporabimo kakšne druge metode? Kako bi sami generirali smiselne vhodne podatke za ta problem? Bi lahko na enak način obravnavali tudi druge funkcije, npr. preproste stopničaste funkcije?
 
-\section{Razmislek in potek dela}
+% *************************************************************************************************
+
+\subsection{Razmislek in potek dela}
 \vspace{0.5cm}
 
-Očitno je, da je več aspektov tega problema mogoče posplošiti. Trikotne funkcije lahko nadomestimo s katerimi drugimi preprostimi funkcijami (npr. stopničasto), kar v začetni fazi eksperimentiranja nameravava tudi storiti. Namesto 7 funkcij, jih lahko izberemo $m$, $m \leq n$. Namesto intervala $[0,1]$ pa lahko izbereva poljuben zaprt interval $[a,b]$, $-\infty < a \leq b < \infty$. \\
+Očitno je, da je več aspektov tega problema mogoče posplošiti. Trikotne funkcije lahko nadomestimo s katerimi drugimi preprostimi funkcijami (npr. stopničastimi, pravokotnimi). Namesto 7 funkcij, jih lahko izberemo $r$, $r < n$. Namesto intervala $[0,1]$ pa lahko izberemo poljuben zaprt interval $[a,b]$, $-\infty < a \leq b < \infty$. \\
 
-\noindent Po pregledu ostalih enostavnih funkcij, se bova lotila eksperimentiranja z različnimi trikotnimi funkcijami, npr.:
+Problem sva se odločila rešiti za dva tipa trikotnih funkcij:
 \begin{itemize}
-	\item nabor trikotnih funkcij z isto višino ali širino
-	\item simetrične trikotne funkcije
-	\item asimetrične trikotne funkcije
-	\item nabor trikotnih funkcij z isto (fiksirano) ploščino
+	\item simetrične,
+	\item splošne.
 \end{itemize}
-\vspace{0.5cm}
 
-\noindent V primeru, da metoda celoštevilskega linearnega programiranja ni primerna za reševanje tega optimizacijskega problema, bova iskala druge primerne metode. Tekom eksperimentiranja s trikotnimi funkcijami, se bova dotaknila tudi načinov, kako te za namene našega problema sploh smiselno generirati. \\
+Problem sva nameravala reševati z metodo celoštevilskega linearnega programiranja, ki se je kasneje izkazala za neustrezno. Namesto tega sva uporabila metodo mešano-celoštevilskega programiranja, ki v dovoli tudi realnoštevilske omejitve. \\
 
-\noindent Kot opisano v navodilu je ``čim bolj konstantno'' mišljeno kot čim manjša razlika med maksimalno in minimalno vrednostjo vsote funkcij na intervalu. Iz nabora funkcij $\set{f_1,\ldots,f_n}$ želimo torej izbrat tako podmnožico $\set{g_1,\ldots,g_r}$, $r \leq n$, da bo dosežen
+Kot opisano v navodilu je ``čim bolj konstantno'' mišljeno kot čim manjša razlika med maksimalno in minimalno vrednostjo vsote funkcij na intervalu. Iz nabora funkcij $\set{f_1,\ldots,f_n}$ želimo torej izbrat tako podmnožico $\set{g_1,\ldots,g_r}$, $r \leq n$, da bo dosežen
 $$\min_{\set{g_1,\ldots,g_r} \subseteq \set{f_1,\ldots,f_n}}\left({\max_{x \in [a,b]}\sum_{i=1}^r g_i - \min_{x \in [a,b]}\sum_{i=1}^r g_i}\right)$$
-na želenem zaprtem intervalu $[a,b]$ (v navodilih $[0,1]$). Pomisleke imava glede primernosti linearnega programiranja, saj funkciji $\max$ in $\min$ nista linearni. Premislila bova tudi o potencialni boljši matematični formulaciji problema. Pomagala si bova tudi z dejstvom, da so funkcije s katerimi imava opravka zvezne ter odsekoma linearne -- prav tako njihove vsote -- ter da se ekstremi takih funkcij lahko pojavljajo le na mestih, kjer se te lomijo, v kontekstu našega problema pa tudi na robovih ustreznega intervala.
+na želenem zaprtem intervalu $[a,b]$ (v navodilih $[a,b]=[0,1]$, $r=7$). Očitno je, da zgoraj zapisano ne formulira linearnega programa -- funkciji $\max$ in $\max$ nista linearni. Formulacijo je bilo zato potrebno še malo spremeniti. Pri tem sva si pomagala z dejstvom, da so trikotne funkcije, s katerimi imava opravka, odsekoma linearne -- ekstreme lahko dosežejo le v točkah, kjer se prelomijo. Ta lastnost se zaradi linearnosti prenese tudi na njihovo vsoto. Ta lahko ekstreme doseže le v točkah, kjer se prelomi neka funkcija, ki je del te vsote. 
+
+% *************************************************************************************************
 
 \subsection{Programsko okolje in implementacija}
 \vspace{0.5cm}
 
-Za implementacijo problema sva se odločila za uporabo programskega jezika \texttt{Sage}, ker ima že vgrajeno podporo za celoštevilsko linearno programiranje. V osnovi sloni na programskem jeziku \texttt{Python}, z dodatno podporo za matematiko, nastal pa je kot alternativa programskemu jeziku \texttt{Mathematica}. V primeru, da bi nama \texttt{Sage} delal težave, se bi obrnila še na programska jezika \texttt{R} in \texttt{Python}. V \texttt{R} bi uporabila knjižnici za linearno programiranje \texttt{lpSolve} in \texttt{lpSolveAPI}. V \texttt{Pythonu}-u bi se lahko obrnila na paketa \texttt{SciPy} in \texttt{PuLP}.
+Za implementacijo problema sva se odločila za uporabo programskega jezika \texttt{Sage}, ker ima že vgrajeno podporo za celoštevilsko linearno programiranje. V osnovi sloni na programskem jeziku \texttt{Python}, z dodatno podporo za matematiko, nastal pa je kot alternativa programskemu jeziku \texttt{Mathematica}. Programirala sva na platformi \texttt{CoCalc}, kjer sva datoteke pretvorila v \texttt{Jupyter Notebooks} obliko.
 
 %#################################################################################################
 
-\section{Rešitev problema s CLP}
+\section{Ideja rešitve z linearnim programiranjem LP}
 \vspace{0.5cm}
 
-Kot omenjeno v uvodu, je ideja naslednja: iz nabora funkcij $\set{f_1,\ldots,f_n}$ želimo torej izbrati tako podmnožico $\set{g_1,\ldots,g_r}$, $r \leq n$, da bo dosežen
-$$\min_{\set{g_1,\ldots,g_r} \subseteq \set{f_1,\ldots,f_n}}\left({\max_{x \in [a,b]}\sum_{i=1}^r g_i - \min_{x \in [a,b]}\sum_{i=1}^r g_i}\right)$$
-na želenem zaprtem intervalu $[a,b]$. Glede na to, da imamo opravka s trikotnimi funkcijami, ki so odsekoma linearne, pa lahko problem poenostavimo. Iz odsekoma linearnosti tako funkcij kot njihove vsote sledi, da bo vsota lahko dosegla ekstrem le na robovih intervala ali na mestu prelomu ene izmed funkcij. Vsoto lahko zato namesto na celotnem intervalu $[a,b]$ ocenimo le na točkah preloma. Definiramo torej množico testnih točk $\mathcal{B} = \set{x_1,\ldots,x_k} \cap [a,b]$, v kateri so vsebovane točke preloma obravnavanih funkcij (iz intervala $[a,b]$) ter robni točki $\set{a}$ in $\set{b}$. Da lahko v teh točkah ocenimo vsoto, moramo izračunati vrednosti vseh funkcij $f_j$, $j \in [n]$, v vseh točkah množice $\B$. Zgornjo formulacijo problema lahko prepišemo kot
+Kot omenjeno v uvodu, je ideja naslednja: iz nabora funkcij $\set{f_1,\ldots,f_r}$ želimo torej izbrati tako podmnožico $\set{g_1,\ldots,g_r}$, $r \leq 7 < n$, da bo dosežen
+$$\min_{\set{g_1,\ldots,g_7} \subseteq \set{f_1,\ldots,f_n}}\left({\max_{x \in [a,b]}\sum_{i=1}^r g_i - \min_{x \in [a,b]}\sum_{i=1}^r g_i}\right)$$
+na želenem zaprtem intervalu $[a,b]$. Glede na to, da imamo opravka s trikotnimi funkcijami, ki so odsekoma linearne, pa lahko problem poenostavimo. Iz odsekoma linearnosti tako funkcij kot njihove vsote sledi, da bo vsota lahko dosegla ekstrem le na robovih intervala ali na mestu prelomu ene izmed funkcij. Vsoto lahko zato namesto na celotnem intervalu $[a,b]$ ocenimo le na točkah preloma. Definiramo torej množico testnih točk $\mathcal{B} = \set{x_1,\ldots,x_k}$, v kateri so vsebovane točke preloma obravnavanih funkcij iz intervala $[a,b]$ ter robni točki $\set{a}$ in $\set{b}$. Da lahko v teh točkah ocenimo vsoto, moramo izračunati vrednosti vseh funkcij $f_j$, $j \in [n]$, v vseh točkah množice $\B$. Zgornjo formulacijo problema lahko prepišemo kot
 $$\min \left( \max_{x_i \in \B} \sum_{j=1}^n f_j(x_i)v_j - \min_{x_i \in \mathcal{B}} \sum_{j=1}^n f_j(x_i)v_j \right),$$
 kjer $v_j$ definiramo kot
 $$v_j ~=~ \begin{cases}
 1\,; ~&f_j \in \set{g_1,\ldots,g_r}, \\
 0\,; ~&f_j \notin \set{g_1,\ldots,g_r}.
 \end{cases}$$
+Zdaj se moramo znebiti še funkcij $\max$ in $\min$. Izračunamo lahko vrednost $\sum_{j=1}^n$
 Zapišemo lahko sledeč linearni program:
 \begin{align*}
 &\min(M-m) \\
