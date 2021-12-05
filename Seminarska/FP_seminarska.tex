@@ -92,17 +92,41 @@ $$v_j ~=~ \begin{cases}
 1\,; ~&f_j \in \set{g_1,\ldots,g_r}, \\
 0\,; ~&f_j \notin \set{g_1,\ldots,g_r}.
 \end{cases}$$
-Zdaj se moramo znebiti še funkcij $\max$ in $\min$. Izračunamo lahko vrednost $\sum_{j=1}^n$
-Zapišemo lahko sledeč linearni program:
+Zdaj se moramo znebiti še funkcij $\max$ in $\min$. Izračunamo lahko vrednost $\sum_{j=1}^n f_j(x_i)v_j$ za vsak $i$ in definiramo vrednosti $M,m \in \R$, taki, da $M$ navzgor omeji dane vsote, $m$ pa navzdol.\\
+
+Zdaj lahko zapišemo sledeč linearni program:
 \begin{align*}
 &\min(M-m) \\
-&\forall j \in \set{1,\ldots,r}: ~0 \leq v_j \leq 1, ~v_j \in \Z \\
-&\forall i \in \set{1,\ldots,k}: ~\sum_{j=1}^r f_j(x_i)v_j \leq M \\
-&\forall i \in \set{1,\ldots,k}: ~\sum_{j=1}^r f_j(x_i)v_j \geq m \\
-&\sum_{j=1}^r v_j \geq 1 \\
-&\sum_{j=1}^r v_j \leq 7
+&\forall j \in \set{1,\ldots,n}: ~0 \leq v_j \leq 1, ~v_j \in \Z \\
+&\forall i \in \set{1,\ldots,k}: ~\sum_{j=1}^n f_j(x_i)v_j \leq M \\
+&\forall i \in \set{1,\ldots,k}: ~\sum_{j=1}^n f_j(x_i)v_j \geq m \\
+&\sum_{j=1}^n v_j \geq 1 \\
+&\sum_{j=1}^n v_j \leq 7
 \end{align*}
+Ker sta $M$ in $m$ realnoštevilski omejitvi, ta linearen program ni celoštevilski ampak mešano-celoštevilski.
 
-%#################################################################################################
+% #################################################################################################
+
+\section{Implementacija}
+\vspace{0.5cm}
+
+% *************************************************************************************************
+
+\subsection{Generiranje trikotnih funkcij}
+\vspace{0.5cm}
+
+Definicija trikotne funkcije ni pretirano striktno določena, ideja pa je naslednja. Funkcija je konstantno enaka $0$ na intervalu $(-\infty, x_1)$, kjer $x_1$ predstavlja levi rob trikotnika. Na intervalu $[x_1, x_2]$, kjer je $(x_2,y(x_2))$ vrh trikotnika, je definirana kot linearna funkcija s pozitivnim naklonom, ki potuje skozi točki $(x_1,0)$ ter $(x_2,y(x_2))$. Na intervalu od $x_2$ do $x_3$, kjer je $x_3$ desni rob trikotnika, je zopet definirana kot linearna funkcija, tokrat z negativnim naklonom ter potuje skozi $(x_2,y(x_2))$ in $(x_3,0)$. Na intervalu $(x_3,\infty)$ je zopet konstantno enaka $0$. Najbolj preprost primer bi bil morda $f(x) = \max\set{1-|x|,0}$. \\
+
+Pri samem generiranju trikotnih funkcij sva se odločila izkoristiti kar najin izbran način spopadanja s linearnim programom, pri katerem funkcijo oceniva le v končnem naboru točk preloma. Zato sva se odločila, da bova funkcije definirala preko njihovih točk preloma. Ideja je preposta: za dobljeno trojico točk $(x_1, 0),(x_2, y_2),(x_3,0) \in \R^2$, $x_1,x_2,x_3,y_1 \in \R$, \hbox{$x_1<x_2<x_3$, $y_2>0$,} lahko trikotno funkcijo $f$ definiramo kot
+$$f(x) ~=~ \begin{cases}
+0\,; ~&x \in (-\infty,x_1)\cup[x_3,\infty), \\
+\frac{y_2}{x_2-x_1}x - \frac{y_2x_1}{x_2-x_1}\,; ~& x \in [x_1,x_2), \\
+\frac{-y_2}{x_3-x_2}x + \frac{y_2x_3}{x_3-x_2}\,; ~& x \in [x_2, x_3).
+\end{cases}$$
+Točke sva generirala naključno, s pomočjo \texttt{Python}-ove knjižnice \texttt{random}. Definirala sva razred \texttt{TrikotnaFunkcija}, ki generira vrednosti po enakomerni zvezni porazdelitvi, $x_1,x_2,x_3 \sim \mathcal{U}([0,1])$, $y_2 \sim \mathcal{U}([0,100])$, ter jih nato uredi v točke $(x_1,0),(x_2,y_2),(x_3,0)$.
+
+% *************************************************************************************************
+
+% #################################################################################################
 
 \end{document}
