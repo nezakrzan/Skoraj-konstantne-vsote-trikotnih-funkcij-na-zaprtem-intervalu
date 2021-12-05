@@ -2,6 +2,15 @@
 \usepackage[utf8]{inputenc}
 \usepackage[slovene]{babel}
 
+
+\usepackage{lmodern}
+\usepackage{hyperref}
+\usepackage{blindtext}
+\usepackage{amssymb}  
+\usepackage{listings} %python koda
+\usepackage{tabularx}
+\usepackage{tikz}
+
 \usepackage{amsthm}
 \usepackage{amsmath, amssymb, amsfonts}
 \usepackage{relsize}
@@ -33,21 +42,45 @@ right  = 3.cm]{geometry}
 \newcommand{\green}[1]{\color{teal}#1\color{black}}
 \newcommand{\B}{\mathcal{B}}
 
-\title{Poročilo projekta - Skoraj konstantne vsote trikotnih funkcij na zaprtem intervalu}
-\author{Oskar Vavtar in Neža Kržan}
-\date{6. 12. 2021}
+\lstset{%
+   breaklines=true
+}
 
 \begin{document}
-\maketitle
+
+\begin{titlepage}
+\center
+\textsc{\LARGE Univerza v Ljubljani}\\[0.6cm]
+\textsc{\Large Fakulteta za matematiko in fiziko}\\[0.6cm]
+
+{\huge\bfseries Poročilo projekta - Skoraj konstantne vsote trikotnih funkcij na zaprtem intervalu}\\[0.4cm]
+
+
+\vfill\vfill\vfill
+
+{ Oskar Vavtar in Neža Kržan}
+
+{ December, 2021}
+
+\vfill
+
+\end{titlepage}
+
+% #################################################################################################
+\tableofcontents
+\newpage
 
 % #################################################################################################
 
 \section{Uvod}
 \vspace{0.5cm}
 
+V nadaljevanju poročila bova predstavila problem izračuna skoraj konstantne vsote trikotnih funkcij na zaprtem intervalu in kodo, s katero sva problem rešila. 
+V začetku poročila sledi podroben opis problema ter ugotovitve glede reševanja problema. V nadaljevanu sledi komentrianje kode, predstavitev rezultatov in generiranje programa.
+
 % *************************************************************************************************
 
-\subsection{Navodilo}
+\section{Navodilo}
 \vspace{0.5cm}
 
 Imamo nabor $n$ trikotnih funkcij. Izmed njih želimo izbrati podmnožico največ sedmih, da bo njihova vsota čim bolj konstantna na intervalu $[0,1]$ - s tem mislimo, da je razlika med maksimalno in minimalno vrednostjo vsote najmanjša možna. Ali je metoda celoštevilskega linearnega programiranja primerna za ta problem? Lahko uporabimo kakšne druge metode? Kako bi sami generirali smiselne vhodne podatke za ta problem? Bi lahko na enak način obravnavali tudi druge funkcije, npr. preproste stopničaste funkcije?
@@ -76,9 +109,20 @@ na želenem zaprtem intervalu $[a,b]$ (v navodilih $[a,b]=[0,1]$, $r=7$). Očitn
 \subsection{Programsko okolje in implementacija}
 \vspace{0.5cm}
 
-Za implementacijo problema sva se odločila za uporabo programskega jezika \texttt{Sage}, ker ima že vgrajeno podporo za celoštevilsko linearno programiranje. V osnovi sloni na programskem jeziku \texttt{Python}, z dodatno podporo za matematiko, nastal pa je kot alternativa programskemu jeziku \texttt{Mathematica}. Programirala sva na platformi \texttt{CoCalc}, kjer sva datoteke pretvorila v \texttt{Jupyter Notebooks} obliko.
+Za implementacijo problema sva se odločila za uporabo programskega jezika \texttt{Sage}, ker ima že vgrajeno podporo za celoštevilsko linearno programiranje. V osnovi sloni na programskem jeziku \texttt{Python}, z dodatno podporo za matematiko, nastal pa je kot alternativa programskemu jeziku \texttt{Mathematica}. Programirala sva na platformi \texttt{CoCalc}, kjer sva datoteke pretvorila v \texttt{Jupyter Notebooks} obliko. \\
+Za prikaz rezultatov pri generiranju programa pa sva si pomagala z \texttt{R Studio}-m.
 
 %#################################################################################################
+\section{Celoštevilsko linearno programiranje}
+\vspace{0.5cm}
+
+Problem bova reševala s pomočjo celoštevilskega linearnega programiranja. Reševanje problemov s CLP je v praksi računsko zelo zahtevno, saj je CLP NP-težek problem, se pravi ne poznamo učinkovitih polinomskih algoritmov za reševanje. Celoštevilski linearni program je definiran na sledeč način. \\
+Imamo podatke:
+$$A \in \mathbb{R}^{m \times n}, c \in  \mathbb{R}^{n}, b \in  \mathbb{R}^{m }. $$ Iščemo: $$x \in  \mathbb{Z}^{n},$$kjer je doseženo$$maxc^Tx$$
+pri pogojih $$Ax\le b\\$$ $$x \ge 0.$$
+
+%#################################################################################################
+
 
 \section{Ideja rešitve z linearnim programiranjem LP}
 \vspace{0.5cm}
@@ -115,7 +159,11 @@ Ker sta $M$ in $m$ realnoštevilski omejitvi, ta linearen program ni celoštevil
 \subsection{Generiranje trikotnih funkcij}
 \vspace{0.5cm}
 
-Definicija trikotne funkcije ni pretirano striktno določena, ideja pa je naslednja. Funkcija je konstantno enaka $0$ na intervalu $(-\infty, x_1)$, kjer $x_1$ predstavlja levi rob trikotnika. Na intervalu $[x_1, x_2]$, kjer je $(x_2,y(x_2))$ vrh trikotnika, je definirana kot linearna funkcija s pozitivnim naklonom, ki potuje skozi točki $(x_1,0)$ ter $(x_2,y(x_2))$. Na intervalu od $x_2$ do $x_3$, kjer je $x_3$ desni rob trikotnika, je zopet definirana kot linearna funkcija, tokrat z negativnim naklonom ter potuje skozi $(x_2,y(x_2))$ in $(x_3,0)$. Na intervalu $(x_3,\infty)$ je zopet konstantno enaka $0$. Najbolj preprost primer bi bil morda $f(x) = \max\set{1-|x|,0}$. \\
+Definicija trikotne funkcije ni pretirano striktno določena, ideja pa je naslednja. 
+Funkcija je konstantno enaka $0$ na intervalu $(-\infty, x_1)$, kjer $x_1$ predstavlja levi rob trikotnika. 
+Na intervalu $[x_1, x_2]$, kjer je $(x_2,y(x_2))$ vrh trikotnika, je definirana kot linearna funkcija s pozitivnim naklonom, ki potuje skozi točki $(x_1,0)$ ter $(x_2,y(x_2))$. 
+Na intervalu od $x_2$ do $x_3$, kjer je $x_3$ desni rob trikotnika, je zopet definirana kot linearna funkcija, tokrat z negativnim naklonom ter potuje skozi $(x_2,y(x_2))$ in $(x_3,0)$. 
+Na intervalu $(x_3,\infty)$ je zopet konstantno enaka $0$. Najbolj preprost primer bi bil morda $f(x) = \max\set{1-|x|,0}$. \\
 
 Pri samem generiranju trikotnih funkcij sva se odločila izkoristiti kar najin izbran način spopadanja s linearnim programom, pri katerem funkcijo oceniva le v končnem naboru točk preloma. Zato sva se odločila, da bova funkcije definirala preko njihovih točk preloma. Ideja je preposta: za dobljeno trojico točk $(x_1, 0),(x_2, y_2),(x_3,0) \in \R^2$, $x_1,x_2,x_3,y_1 \in \R$, \hbox{$x_1<x_2<x_3$, $y_2>0$,} lahko trikotno funkcijo $f$ definiramo kot
 $$f(x) ~=~ \begin{cases}
@@ -126,7 +174,108 @@ $$f(x) ~=~ \begin{cases}
 Točke sva generirala naključno, s pomočjo \texttt{Python}-ove knjižnice \texttt{random}. Definirala sva razred \texttt{TrikotnaFunkcija}, ki generira vrednosti po enakomerni zvezni porazdelitvi, $x_1,x_2,x_3 \sim \mathcal{U}([0,1])$, $y_2 \sim \mathcal{U}([0,100])$, ter jih nato uredi v točke $(x_1,0),(x_2,y_2),(x_3,0)$.
 
 % *************************************************************************************************
+\subsection{Koda za CLP}
+\vspace{0.5cm}
+
+S pomočjo spodnje kode sva si pomagala rešiti celoštevilski linearni program. 
+Funkcija \texttt{vsota\char`_trikotnih\char`_funkcij} reši \texttt{CLP}. Omenjena funkcija vrne minimalno razliko med $M$ in $m$, ter še trikotne funkcije, ki so bile izbrane za izračun čimbolj konstantne voste.
+
+\begin{lstlisting}[language=Python]
+def vsota_trikotnih_funkcij(seznam_funkcij, seznam_tock, z):
+    k = len(seznam_tock)
+    r = len(seznam_funkcij)
+
+    p = MixedIntegerLinearProgram(maximization=False)
+    v = p.new_variable(binary=True)
+    m = p.new_variable(integer=False, nonnegative=True)
+    p.set_objective(m[1]-m[0])
+
+    for x in seznam_tock:
+        sum_ = sum(seznam_funkcij[j](x) * v[j] for j in range(r))
+        f'{sum_=}'
+        f'{sum_ - m[1]}'
+        f'{sum_ - m[0]}'
+        p.add_constraint(sum_ - m[1], max=0)
+        p.add_constraint(sum_ - m[0], min=0)
+
+
+    sum2_ = sum(v[j] for j in range(z))
+    f'{sum2_=}'
+    f'{v[0]=}'
+    f'{z=}'
+    p.add_constraint(sum2_, min=1)
+    p.add_constraint(sum2_, max=z)
+
+    vsota = p.solve()
+    M, m = p.get_values(m[1]), p.get_values(m[0])
+    f'{M=}'
+    f'{m=}'
+    v_resitve = p.get_values(v)
+    f'{p.get_values(v)}'
+
+    vkljucene_funkcije = [seznam_funkcij[j] for j in v_resitve if v_resitve[j]==1]
+
+    return [vsota, vkljucene_funkcije]
+\end{lstlisting}
+
+% *************************************************************************************************
 
 % #################################################################################################
+
+\section{Ugotovitve}
+\vspace{0.5cm}
+
+% *************************************************************************************************
+
+\subsection{Generiranje programa}
+\vspace{0.5cm}
+
+Odločila sva se za generiranje programa tako, da sva spreminjala nabor trikotnih funckij(število $n$) na intervalu $[0,1]$. Zanimalo naju je kako konstantna je vosta oziroma kako se spremenja glede na večanje števila $n$. Predvidevala sva, da večji kot bo $n$ bolj konstantna bo vsota. Odločila sva se, da za vsak $n$ funkcijo \texttt{vsota\char`_trikotnih\char`_funkcij} zaženeva desetkrat, saj se nama je to zdelo dovolj. 
+Zanimalo naju je tudi, kako program izbira funckije iz nabora $n$ trikotnih funkcij. Predvidevala sva, da manjše kot bo število $n$, manjša je verjetnost, da bo izbral večje število trikotnih funkcij za izračun čim bolj konstantne vsote na intervalu $[0,1]$. \\
+\vspace{0.25cm}
+
+Funckijo \texttt{vsota\char`_trikotnih\char`_funkcij} sva torej za vsak $n$ iz nabora $n = {7, 10, 25, 50, 80, 100}$ pognala desetkrat. Dobljeno število funkcij za izračun skoraj konstantne vsote trikotnih funkcij na zaprtem itervalu $[0,1]$ sva zapisovala v seznam in prav tako vsoto. 
+Ugotovila sva, kar je razvidno tudi iz spodnjega grafa, da večje kot je število $n$ bolj konstantna je vsota. Večje kot je bilo število $n$, dlje časa je tudi program porabil za izračun. \\
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.55]{vsota.png}
+	\caption{Skoraj konstantne vsote trikotnih funkcij na zaprtem intervalu}
+\end{figure} \\
+
+Glede na število trikotnih funkcij, ki jih program izbere iz nabora $n$ trikotnih funkcij, sva prišla do ugotovitve, da večje kot je število $n$, več funkcij je program izbral za izračun, kar je vidno tudi na spodnjem grafu. \\
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.45]{st_funkcij.png}
+	\caption{Število izbranih trikotnih funkcij glede na nabor vseh trikotnih funkcij}
+\end{figure}	
+
+\newpage
+Še vedno so se pojavili primeri, ko je program izbral po le eno funkcijo iz nabora. 
+Ugotovila sva tudi, da če je bila vsota enaka $0.00$, je program ponavaid izbral po eno ali dve funkciji iz nabora $n$ funkcij(seveda je bilo nekaj izjem).\\
+
+% *************************************************************************************************
+\subsection{Čas izvajanja programa}
+\vspace{0.5cm}
+
+Spodnji graf nam prikazuje, kako se povprečno spreminja čas izvajanja programa, ki je mešano - celoštevilski, za iskanje največ $7$ trikotnih funkcij v odvisnosti od celotnega nabora trikonih funkcij. 
+Funckijo \texttt{vsota\char`_trikotnih\char`_funkcij} sva pognala za izbor največ $7$ trikotnih funkcij izmed $n$ trikotnih funkcij, kjer je $n = {7, 10, 25, 50, 60, 70}$.
+Iz grafa sva razbrala, da se seveda čas izvajanja poveča s povečanjem nabora vseh trikotnih funkcij, kar je precej očitno. Program mora za vsako funkcijo več izračunati vse potrebne vsote in vsako funkcijo izračunati v naboru točk preloma. \\
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.55]{casi.png}
+	\caption{Čas izvajanja programa glede na spreminjanje celotnega nabora trikotnih funkcij}
+\end{figure}
+
+% *************************************************************************************************
+
+% #################################################################################################
+
+\newpage{}
+\section{Viri}
+\begin{itemize}
+\item Arijana Žitnik (2021). Prosojnice Celostevilsko linearno programiranje, časovna zahtevnost in težki problemi. Dostopno na:$https://ucilnica2021.fmf.uni-lj.si/pluginfile.php/58787/mod_resource/content/13/CLP.pdf$
+\item Konzultacije z asistentom Janošom Vidalijem in s profesorjem Sergio Cabello.
+\end{itemize}
 
 \end{document}
